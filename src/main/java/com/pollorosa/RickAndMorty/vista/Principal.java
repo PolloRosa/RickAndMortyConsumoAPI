@@ -40,7 +40,7 @@ public class Principal {
                 .filter(p -> p.getNombre().contains("Rick"))
                         .forEach(System.out::println);*/
 
-        System.out.println("Top 10 personajes Rick más antiguos:");
+        System.out.println("Los 10 personajes Ricks más antiguos de la serie:");
         personajes.stream()
                 .filter(p -> p.getNombre().contains("Rick") && p.getFechaDeCreacion() != null)
                 //.peek(p -> System.out.println("Filtro humano y fecha not null" + p))
@@ -48,6 +48,11 @@ public class Principal {
                 .limit(10)
                 .forEach(System.out::println);
 
-        //System.out.println("Top 10 personajes con más apariciones en episodios:");
+        System.out.println("Top 10 personajes con más apariciones en episodios:");
+        personajes.stream()
+                .sorted(Comparator.comparing(Personaje::getEpisodios).reversed())
+                .limit(10)
+                .map(p -> p.getNombre() + " con " + p.getEpisodios() + " episodios.")
+                .forEach(System.out::println);
     }
 }
