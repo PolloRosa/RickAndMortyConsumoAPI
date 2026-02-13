@@ -3,9 +3,12 @@ package com.pollorosa.RickAndMorty.vista;
 import com.pollorosa.RickAndMorty.model.Constantes;
 import com.pollorosa.RickAndMorty.model.DatosPersonaje;
 import com.pollorosa.RickAndMorty.model.DatosResultado;
+import com.pollorosa.RickAndMorty.model.Personaje;
 import com.pollorosa.RickAndMorty.service.ConsultaDatos;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,15 +27,27 @@ public class Principal {
             contadorPaginas++;
         } while(url != null && contadorPaginas < 10);
 
-        List<DatosPersonaje> personajes = resultados.stream()
+        /*List<DatosPersonaje> datosPersonajes = resultados.stream()
                 .flatMap(r -> r.personajes().stream())
+                .collect(Collectors.toList());*/
+
+        List<Personaje> personajes = resultados.stream()
+                .flatMap(r -> r.personajes().stream())
+                .map(Personaje::new)
                 .collect(Collectors.toList());
 
-        personajes//.stream()
-                //.filter(p -> p.especie().equalsIgnoreCase("human"))
-                //.limit(10)
+        /*personajes.stream()
+                .filter(p -> p.getNombre().contains("Rick"))
+                        .forEach(System.out::println);*/
+
+        System.out.println("Top 10 personajes Rick más antiguos:");
+        personajes.stream()
+                .filter(p -> p.getNombre().contains("Rick") && p.getFechaDeCreacion() != null)
+                //.peek(p -> System.out.println("Filtro humano y fecha not null" + p))
+                .sorted(Comparator.comparing(Personaje::getFechaDeCreacion))
+                .limit(10)
                 .forEach(System.out::println);
 
-
+        //System.out.println("Top 10 personajes con más apariciones en episodios:");
     }
 }

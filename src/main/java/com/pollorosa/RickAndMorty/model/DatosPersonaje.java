@@ -16,5 +16,5 @@ public record DatosPersonaje(
         @JsonAlias("origin") DatosOrigen origen,
         @JsonAlias("location") DatosUbicacion ubicacion,
         @JsonAlias("episode") List<String> episodios,
-        @JsonAlias("created") String fechaCreacion) {
+        @JsonAlias("created") String fechaDeCreacion) {
 }
